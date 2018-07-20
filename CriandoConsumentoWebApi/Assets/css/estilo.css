@@ -1,0 +1,39 @@
+﻿
+
+ .cor-laranja {
+        color: #FF6600 !important;
+        font-weight: bold !important;
+    }
+
+ .cor-azul{
+     color: #082d73 !important;
+     font-weight: bold !important;
+ }
+
+.sem-borda {
+    border: none !important;
+}
+
+.margin-top-20-neg {
+    margin-top: -20px;
+}
+
+.margin-top-40-neg {
+    margin-top: -40px;
+}
+
+.margin-top-5 {
+    margin-top: 5px;
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.table-condensed-sm > tbody > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > thead > tr > th {
+    padding: 0px !important; 
+}
+
+.uppercase {
+    text-transform: uppercase;
+}

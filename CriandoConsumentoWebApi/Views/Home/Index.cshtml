@@ -1,0 +1,157 @@
+﻿@model CriandoConsumentoWebApi.Models.tFuncionarios
+
+<script src="~/Assets/plugins/jquery/jquery-1.12.4.min.js"></script>
+<link href="~/Assets/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+<div class="row">
+    @*<table>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+            </tr>
+            @foreach (var item in ViewBag.DadosUsuarios)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Nome</td>
+                </tr>
+            }
+
+        </table>
+        <br />*@
+
+    <table class="table table-bordered table-hover table-striped">
+        <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>Cidade</th>
+            <th>Bairro</th>
+            <th>Atualizar</th>
+            <th>Excluir</th>
+
+        </tr>
+        @foreach (var item in ViewBag.DadosFuncionarios)
+        {
+            <tr>
+                <td>@item.Id_Caixa_Func</td>
+                <td>@item.Nome_Func</td>
+                <td>@item.Cidade_Func</td>
+                <td>@item.Bairro_Func</td>
+
+                <td style="text-align: center;">
+                    <a href="#" class="btn glyphicon glyphicon-arrow-up btn-atualizar" id="@item.Mat_Func" name="@item.Nome_Func"></a>
+                </td>
+                <td style="text-align: center;">
+                    <button type="button" class="btn glyphicon glyphicon-remove btn-excluir" id="@item.Mat_Func" data-url="@Url.Action("Delete", "Home")"></button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div class="modal modal-primary" id="my-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Primary Modal</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline" id="btn-salvar" data-url="@Url.Action("Update", "Home")">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    jQuery(function () {
+
+        $('.btn-atualizar').click(function () {
+
+            var elemento = $(this);
+            var idFunc = elemento.attr('id');
+            var nomeFunc = elemento.attr('name');
+
+            var divModal = $('#div-modal');
+
+            var htmlModal = '<div class="content col-md-12">'
+            htmlModal += '<div class="col-md-12 form-inline">'
+            htmlModal += 'Nome: <input type="text" class="col-lg-12 form-control txt-nome-editar" id="' + idFunc + '" value="' + nomeFunc + '"/>'
+            htmlModal += '</div>'
+            htmlModal += '</div>'
+
+            $('.modal-body').html(htmlModal)
+
+            $('#my-modal').modal();
+        });
+
+
+        $('#btn-salvar').click(function () {
+
+            var elemento = $('#btn-salvar');
+            var url = elemento.attr('data-url');
+            
+            var id = $('.txt-nome-editar').attr('id');
+            var nomeUsuario = $('.txt-nome-editar').val();
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: { 'id': id, 'nome': nomeUsuario }
+
+            }).done(function (data) {
+                
+                $('#my-modal').modal('hide');
+                window.location.reload();
+
+
+            }).fail(function (erro) {
+                console.log(erro)
+            });
+
+        });
+
+
+
+        $('.btn-excluir').click(function () {
+
+            var elemento = $(this);
+
+            elemento.addClass("removido");
+
+            var url = elemento.attr('data-url');
+            var idUsuario = elemento.attr('id');
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: { 'id': idUsuario }
+
+            }).done(function (data) {
+
+                if (elemento.hasClass("removido")) {
+                    window.location.reload();
+                }
+
+            }).fail(function (erro) {
+
+            });
+        });
+    });
+</script>
